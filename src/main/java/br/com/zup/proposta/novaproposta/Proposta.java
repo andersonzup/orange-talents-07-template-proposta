@@ -31,6 +31,10 @@ public class Proposta {
     @PositiveOrZero
     private double salario;
 
+    @Deprecated
+    public Proposta() {
+    }
+
     public Proposta(NovaPropostaRequest request, EnderecoRequest enderecoRequest) {
         this.documento = request.getDocumento();
         this.email = request.getEmail();

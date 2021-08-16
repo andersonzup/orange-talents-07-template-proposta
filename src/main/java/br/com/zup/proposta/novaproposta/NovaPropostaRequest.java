@@ -1,6 +1,7 @@
 package br.com.zup.proposta.novaproposta;
 
 import br.com.zup.proposta.validacao.CPFOrCNPJ;
+import br.com.zup.proposta.validacao.UniqueValue;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -11,6 +12,7 @@ public class NovaPropostaRequest {
 
     @CPFOrCNPJ
     @NotBlank
+    @UniqueValue(domainClass = Proposta.class, fieldName = "documento", message = "Solicitante já requisitou uma proposta")
     private String documento;
 
     @NotBlank
