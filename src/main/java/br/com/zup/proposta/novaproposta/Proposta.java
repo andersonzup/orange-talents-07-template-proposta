@@ -31,6 +31,9 @@ public class Proposta {
     @PositiveOrZero
     private double salario;
 
+    @Enumerated
+    private EstadoProposta estado;
+
     @Deprecated
     public Proposta() {
     }
@@ -41,17 +44,31 @@ public class Proposta {
         this.nome = request.getNome();
         this.endereco = enderecoRequest.toModel();
         this.salario = request.getSalario();
+        this.estado = EstadoProposta.AGUARDANDO_APROVACAO;
     }
 
-    public Proposta(String documento, String email, String nome, Endereco endereco, double salario) {
+    public Proposta(String documento, String email, String nome, Endereco endereco, double salario, EstadoProposta estado) {
         this.documento = documento;
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
+        this.estado = estado;
+    }
+
+    public void setEstado(EstadoProposta estado) {
+        this.estado = estado;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public String getNome() {
+        return nome;
     }
 }

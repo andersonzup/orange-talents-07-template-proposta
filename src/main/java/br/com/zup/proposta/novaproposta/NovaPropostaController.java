@@ -1,6 +1,7 @@
 package br.com.zup.proposta.novaproposta;
 
 
+import br.com.zup.proposta.novaproposta.consultarestricao.EstadoPropostaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +15,11 @@ public class NovaPropostaController {
 
     private PropostaRepository propostaRepository;
 
-    public NovaPropostaController(PropostaRepository propostaRepository) {
+    private EstadoPropostaService estadoPropostaService;
+
+    public NovaPropostaController(PropostaRepository propostaRepository, EstadoPropostaService estadoPropostaService) {
         this.propostaRepository = propostaRepository;
+        this.estadoPropostaService = estadoPropostaService;
     }
 
     @ResponseStatus(code = HttpStatus.CREATED)
@@ -23,6 +27,11 @@ public class NovaPropostaController {
     @Transactional
     public String criarProposta(@RequestBody @Valid NovaPropostaRequest request){
         Proposta proposta = propostaRepository.save(request.toModel());
-        return "Proposta criada com id "+proposta.getId();
+        EstadoProposta estado = estadoPropostaService.getEstadoProposta(proposta);
+        return "Proposta criada com id "+proposta.getId()+", Cliente: "+ estado;
     }
+
+
+
+
 }
