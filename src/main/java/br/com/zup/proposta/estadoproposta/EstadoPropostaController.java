@@ -20,8 +20,9 @@ public class EstadoPropostaController {
     }
 
     @GetMapping(path = "/{id}")
-    public String buscaEstadoProposta(@PathVariable("id") Long id) throws PropostaNotFoundException {
+    public EstadoPropostaResponse buscaEstadoProposta(@PathVariable("id") Long id) throws PropostaNotFoundException {
         Proposta proposta = propostaRepository.findById(id).orElseThrow(() -> new PropostaNotFoundException(id));
-        return "Olá "+proposta.getNome()+" o Status da proposta "+id+" está como "+proposta.getEstado();
+        EstadoPropostaResponse response = new EstadoPropostaResponse(proposta.getId(), proposta.getNome(), proposta.getEstado());
+        return response;
     }
 }
