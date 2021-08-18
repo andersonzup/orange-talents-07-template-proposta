@@ -1,10 +1,7 @@
 package br.com.zup.proposta.novaproposta;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.*;
 
 @Entity
 public class Proposta {
@@ -34,6 +31,8 @@ public class Proposta {
     @Enumerated
     private EstadoProposta estado;
 
+    private String numeroCartao;
+
     @Deprecated
     public Proposta() {
     }
@@ -56,8 +55,14 @@ public class Proposta {
         this.estado = estado;
     }
 
-    public void setEstado(EstadoProposta estado) {
+    public void atualizaEstado(EstadoProposta estado) {
         this.estado = estado;
+    }
+
+    public void insereNumeroCartao(String numeroCartao) {
+        @Size(min = 19, max = 19)
+        String caratao = numeroCartao;
+        this.numeroCartao = caratao;
     }
 
     public Long getId() {

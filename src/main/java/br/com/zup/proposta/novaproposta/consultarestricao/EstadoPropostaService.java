@@ -19,10 +19,10 @@ public class EstadoPropostaService {
         String resultadoSolicitacao = response.getResultadoSolicitacao();
 
         if (resultadoSolicitacao.equals("COM_RESTRICAO")){
-            proposta.setEstado(EstadoProposta.NAO_ELEGIVEL);
+            proposta.atualizaEstado(EstadoProposta.NAO_ELEGIVEL);
             return EstadoProposta.NAO_ELEGIVEL;
         }
-        proposta.setEstado(EstadoProposta.ELEGIVEL);
+        proposta.atualizaEstado(EstadoProposta.ELEGIVEL);
         return EstadoProposta.ELEGIVEL;
     }
 }
