@@ -76,4 +76,8 @@ public class Proposta {
     public String getNome() {
         return nome;
     }
+
+    public EstadoProposta getEstado() {
+        return estado;
+    }
 }

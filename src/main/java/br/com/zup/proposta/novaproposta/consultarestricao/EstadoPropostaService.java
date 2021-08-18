@@ -2,6 +2,9 @@ package br.com.zup.proposta.novaproposta.consultarestricao;
 
 import br.com.zup.proposta.novaproposta.EstadoProposta;
 import br.com.zup.proposta.novaproposta.Proposta;
+import feign.FeignException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,14 +18,19 @@ public class EstadoPropostaService {
 
     public EstadoProposta getEstadoProposta(Proposta proposta) {
         ConsultaRestricaoRequest consultaRestricaoRequest = new ConsultaRestricaoRequest(proposta);
-        ConsultaRestricaoResponse response = consultaRestricaoApiExterna.getPropostaResponse(consultaRestricaoRequest);
-        String resultadoSolicitacao = response.getResultadoSolicitacao();
+        ConsultaRestricaoResponse response = null;
+        try {
+            response = consultaRestricaoApiExterna.getPropostaResponse(consultaRestricaoRequest);
+            proposta.atualizaEstado(EstadoProposta.ELEGIVEL);
+            return EstadoProposta.ELEGIVEL;
 
-        if (resultadoSolicitacao.equals("COM_RESTRICAO")){
-            proposta.atualizaEstado(EstadoProposta.NAO_ELEGIVEL);
-            return EstadoProposta.NAO_ELEGIVEL;
+        } catch (FeignException e) {
+            if (e.status() == HttpStatus.UNPROCESSABLE_ENTITY.value()){
+                proposta.atualizaEstado(EstadoProposta.NAO_ELEGIVEL);
+                return EstadoProposta.NAO_ELEGIVEL;
+            }
+            return EstadoProposta.AGUARDANDO_APROVACAO;
         }
-        proposta.atualizaEstado(EstadoProposta.ELEGIVEL);
-        return EstadoProposta.ELEGIVEL;
+
     }
 }

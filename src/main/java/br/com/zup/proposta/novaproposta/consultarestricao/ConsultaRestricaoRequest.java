@@ -7,6 +7,7 @@ public class ConsultaRestricaoRequest {
     private String nome;
     private Long idProposta;
 
+
     public ConsultaRestricaoRequest() {
 
     }
