@@ -3,7 +3,6 @@ package br.com.zup.proposta.estadoproposta;
 import br.com.zup.proposta.exception.PropostaNotFoundException;
 import br.com.zup.proposta.novaproposta.Proposta;
 import br.com.zup.proposta.novaproposta.PropostaRepository;
-import javassist.NotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

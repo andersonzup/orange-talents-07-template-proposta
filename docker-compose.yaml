@@ -22,7 +22,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
-  postgres_propostas:
+  postgrespropostas:
     image: 'postgres:9.6-alpine'
     volumes:
       - propostas-volume:/var/lib/postgresql/data
@@ -32,7 +32,7 @@ services:
       POSTGRES_USER: propostas
       POSTGRES_PASSWORD: password
       POSTGRES_DB: proposta
-      POSTGRES_HOST: propostabd
+      POSTGRES_HOST: postgrespropostas
 
   postgres:
     image: 'postgres:9.6-alpine'
@@ -54,7 +54,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: anderson@email.com
       PGADMIN_DEFAULT_PASSWORD: password
     depends_on:
-      - postgres_propostas
+      - postgrespropostas
 
   keycloak:
     image: jboss/keycloak:11.0.0
@@ -157,9 +157,36 @@ services:
       VAULT_DEV_ROOT_TOKEN_ID: ee413645-dbe8-4848-afc6-6bb2768ada75
       VAULT_TOKEN: ee413645-dbe8-4848-afc6-6bb2768ada75
       VAULT_ADDR: http://127.0.0.1:8200
+  apipropostas:
+    image: 'santanaanderson/propostas'
+    ports:
+      - 8080:8080
+    environment:
+      PROFILE: prod
+      URL_API_CONSULTA: http://analise:9999/api/solicitacao
+      NOME_API_CONSULTA: consultaRestricao
+      URL_API_CARTAO: http://contas:8888/api/cartoes
+      NOME_API_CARTAO: geradorCartao
+      TEMPO_ANALISE: 55000
+      INICIO_ANALISE: 50000
+      TEMPO_CARTAO: 40000
+      INICIO_CARTAO: 50000
+      DB_HOST: postgrespropostas
+      DB_PORT: 5432
+      DB_NAME: proposta
+      DB_USERNAME: propostas
+      DB_PASSWORD: password
+
+    depends_on:
+      - postgrespropostas
+      - contas
+      - analise
+
+
 
 volumes:
   grafana-volume:
   prometheus-volume:
   postgres-volume:
   propostas-volume:
+

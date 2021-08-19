@@ -3,12 +3,12 @@ package br.com.zup.proposta.gerarcartao;
 
 import br.com.zup.proposta.gerarcartao.response.CartaoGeradoResponse;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "geradorCartao", url = "http://localhost:8888/api/cartoes")
+@FeignClient(name = "${proposta.apiexterna.cartao.nome}", url = "${proposta.apiexterna.cartao.url}")
 public interface GeradorCartaoApiExterna {
 
-    @RequestMapping(method = RequestMethod.POST)
-    CartaoGeradoResponse getCartaoGeradoResponse(GerarCartaoRequest gerarCartaoRequest);
+    @GetMapping
+    CartaoGeradoResponse getCartaoGeradoResponse(@RequestParam Long idProposta);
 }

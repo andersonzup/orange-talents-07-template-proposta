@@ -7,6 +7,7 @@ import feign.FeignException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+
 import javax.transaction.Transactional;
 
 import java.util.List;
@@ -25,15 +26,15 @@ public class GerarCartao {
         this.cartaoApiExterna = cartaoApiExterna;
     }
 
-    @Scheduled(fixedDelay = 30000)
+    @Scheduled(fixedDelayString = "${proposta.cartao.scheduled.fixeddelay}", initialDelayString = "${proposta.cartao.scheduled.initialdelay}")
     @Transactional
     private void executarOperacao() {
+        System.out.println("Rodando gerador de cartão");
         List<Proposta> propostasElegiveis = propostaRepository.findAllByEstado(ELEGIVEL);
         for (Proposta proposta : propostasElegiveis) {
-            GerarCartaoRequest cartaoRequest = new GerarCartaoRequest(proposta);
             CartaoGeradoResponse response = null;
             try {
-                response = cartaoApiExterna.getCartaoGeradoResponse(cartaoRequest);
+                response = cartaoApiExterna.getCartaoGeradoResponse(proposta.getId());
                 getNumeroCartao(proposta, response);
             } catch (FeignException e) {
                 e.getMessage();
