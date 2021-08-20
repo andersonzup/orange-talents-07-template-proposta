@@ -23,8 +23,7 @@ public class Cartao {
 
     private String titular;
 
-    @OneToMany
-    private List<Bloqueio> bloqueios;
+    private boolean blocked = false;
 
     @OneToMany
     private List<Aviso> avisos;
@@ -44,13 +43,13 @@ public class Cartao {
     }
 
     public Cartao(String numero, LocalDateTime emitidoEm, String titular,
-                  List<Bloqueio> bloqueios, List<Aviso> avisos, List<Carteira> carteiras, double limite,
+                  boolean blocked, List<Aviso> avisos, List<Carteira> carteiras, double limite,
                   Vencimento vencimentoResponse, String idProposta) {
 
         this.numero = numero;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
-        this.bloqueios = bloqueios;
+        this.blocked = blocked;
         this.avisos = avisos;
         this.carteiras = carteiras;
         this.limite = limite;
@@ -63,7 +62,6 @@ public class Cartao {
         this.numero = response.getId();
         this.emitidoEm = response.getEmitidoEm();
         this.titular = response.getTitular();
-        this.bloqueios = toBloqueioList(response);
         this.carteiras = toCarteirasList(response);
         this.limite = response.getLimite();
         this.vencimentoResponse = new Vencimento(response.getVencimento());
@@ -82,11 +80,6 @@ public class Cartao {
         return carteiras;
     }
 
-    private List<Bloqueio> toBloqueioList(CartaoGeradoResponse response){
-        List<Bloqueio> bloqueios = new ArrayList<>();
-        response.getBloqueios().forEach(e-> bloqueios.add(new Bloqueio(e)));
-        return bloqueios;
-    }
     private List<Aviso> toAvisoList(CartaoGeradoResponse response){
         List<Aviso> avisos = new ArrayList<>();
         response.getAvisos().forEach(e-> avisos.add(new Aviso(e)));

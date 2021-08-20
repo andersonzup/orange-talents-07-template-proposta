@@ -5,7 +5,7 @@ import br.com.zup.proposta.gerarcartao.response.BloqueioResponse;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+//@Entity
 public class Bloqueio {
 
     @Id
