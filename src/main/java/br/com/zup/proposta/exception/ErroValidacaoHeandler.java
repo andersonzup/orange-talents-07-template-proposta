@@ -43,6 +43,16 @@ public class ErroValidacaoHeandler {
         return buildValidationErrors(fieldErrors, responseList);
     }
 
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalBase64Exception.class)
+    public List<ErroFormResponseArgument> handle(IllegalBase64Exception exception){
+
+        List<ErroFormResponseArgument> responseList = new ArrayList<>();
+        responseList.add(new ErroFormResponseArgument(exception.getMessage()));
+        return responseList;
+
+    }
+
     private List<ErroFormResponse> buildValidationErrors(List<FieldError> fieldErrors, List<ErroFormResponse> responseList) {
         fieldErrors.forEach(e -> {
             String mensagem = messageSource.getMessage(e, LocaleContextHolder.getLocale());

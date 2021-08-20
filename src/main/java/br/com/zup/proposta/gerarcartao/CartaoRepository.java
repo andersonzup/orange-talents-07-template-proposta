@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface CartaoRepository extends JpaRepository<Cartao, Long> {
 
     Cartao findByNumero(String id);
+
+    boolean existsByNumero(String id);
 }

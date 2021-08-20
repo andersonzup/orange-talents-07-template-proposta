@@ -5,31 +5,21 @@ import br.com.zup.proposta.validacao.Base64;
 import java.time.LocalDateTime;
 
 public class BiometriaRequest {
-    private String idCartao;
 
     @Base64
     private String biometria;
-
-    private LocalDateTime localDateTime = LocalDateTime.now();
 
     @Deprecated
     public BiometriaRequest() {
     }
 
-    public BiometriaRequest(String idCartao, String biometria) {
-        this.idCartao = idCartao;
+    public BiometriaRequest(String biometria) {
         this.biometria = biometria;
     }
 
-    public String getIdCartao() {
-        return idCartao;
-    }
 
     public String getBiometria() {
         return biometria;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
-    }
 }

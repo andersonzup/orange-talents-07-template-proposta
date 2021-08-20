@@ -11,7 +11,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Constraint(validatedBy = Base64Validator.class)
 public @interface Base64 {
-    String message() default "Valor inválido";
+    String message() default "Valor inválido para Base64";
 
     Class<?>[] groups() default { };
 
