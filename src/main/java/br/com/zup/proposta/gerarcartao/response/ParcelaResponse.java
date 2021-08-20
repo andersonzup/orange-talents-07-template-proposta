@@ -2,7 +2,9 @@ package br.com.zup.proposta.gerarcartao.response;
 
 public class ParcelaResponse {
     private String id;
+
     private int quantidade;
+
     private double valor;
 
     @Deprecated
@@ -19,23 +21,11 @@ public class ParcelaResponse {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public int getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
-
     public double getValor() {
         return valor;
-    }
-
-    public void setValor(double valor) {
-        this.valor = valor;
     }
 }

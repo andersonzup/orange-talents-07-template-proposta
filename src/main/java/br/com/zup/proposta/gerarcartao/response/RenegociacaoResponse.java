@@ -1,5 +1,7 @@
 package br.com.zup.proposta.gerarcartao.response;
 
+import br.com.zup.proposta.gerarcartao.entity.Renegociacao;
+
 import java.time.LocalDateTime;
 
 public class RenegociacaoResponse {
@@ -18,6 +20,7 @@ public class RenegociacaoResponse {
         this.valor = valor;
         this.dataDeCriacao = dataDeCriacao;
     }
+
 
     public String getId() {
         return id;

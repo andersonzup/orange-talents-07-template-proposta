@@ -13,14 +13,15 @@ public class CartaoGeradoResponse {
     private List<ParcelaResponse> parcelas;
     private double limite;
     private RenegociacaoResponse renegociacao;
-    private VencimentoResponse vencimentoResponse;
+    private VencimentoResponse vencimento;
     private String idProposta;
 
     @Deprecated
     public CartaoGeradoResponse() {
     }
 
-    public CartaoGeradoResponse(String id, LocalDateTime emitidoEm, String titular, List<BloqueioResponse> bloqueios, List<AvisoResponse> avisos, List<CarteiraResponse> carteiras, List<ParcelaResponse> parcelas, double limite, RenegociacaoResponse renegociacao, VencimentoResponse vencimentoResponse, String idProposta) {
+    public CartaoGeradoResponse(String id, LocalDateTime emitidoEm, String titular, List<BloqueioResponse> bloqueios, List<AvisoResponse> avisos, List<CarteiraResponse> carteiras,
+                                List<ParcelaResponse> parcelas, double limite, RenegociacaoResponse renegociacao, VencimentoResponse vencimento, String idProposta) {
         this.id = id;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
@@ -30,7 +31,7 @@ public class CartaoGeradoResponse {
         this.parcelas = parcelas;
         this.limite = limite;
         this.renegociacao = renegociacao;
-        this.vencimentoResponse = vencimentoResponse;
+        this.vencimento = vencimento;
         this.idProposta = idProposta;
     }
 
@@ -70,8 +71,8 @@ public class CartaoGeradoResponse {
         return renegociacao;
     }
 
-    public VencimentoResponse getVencimentoResponse() {
-        return vencimentoResponse;
+    public VencimentoResponse getVencimento() {
+        return vencimento;
     }
 
     public String getIdProposta() {
@@ -90,7 +91,7 @@ public class CartaoGeradoResponse {
                 "\n, parcelas=" + parcelas +
                 "\n, limite=" + limite +
                 "\n, renegociacao=" + renegociacao +
-                "\n, vencimentoResponse=" + vencimentoResponse +
+                "\n, vencimentoResponse=" + vencimento +
                 "\n, idProposta='" + idProposta + '\'' +
                 '}';
     }

@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface PropostaRepository extends JpaRepository<Proposta, Long> {
 
-    List<Proposta> findAllByEstado(EstadoProposta elegivel);
+    List<Proposta> findAllByEstado(EstadoProposta estado);
 
+    List<Proposta> findAllByEstadoAndCartaoNotNull(EstadoProposta estado);
 }

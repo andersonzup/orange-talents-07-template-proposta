@@ -31,7 +31,7 @@ public class Proposta {
     @Enumerated
     private EstadoProposta estado;
 
-    private String numeroCartao;
+    private String cartao;
 
     @Deprecated
     public Proposta() {
@@ -62,7 +62,7 @@ public class Proposta {
     public void insereNumeroCartao(String numeroCartao) {
         @Size(min = 19, max = 19)
         String caratao = numeroCartao;
-        this.numeroCartao = caratao;
+        this.cartao = caratao;
     }
 
     public Long getId() {
@@ -79,5 +79,9 @@ public class Proposta {
 
     public EstadoProposta getEstado() {
         return estado;
+    }
+
+    public String getCartao() {
+        return cartao;
     }
 }
