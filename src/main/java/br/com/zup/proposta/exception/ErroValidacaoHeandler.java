@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 @RestControllerAdvice
@@ -46,6 +47,26 @@ public class ErroValidacaoHeandler {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalBase64Exception.class)
     public List<ErroFormResponseArgument> handle(IllegalBase64Exception exception){
+
+        List<ErroFormResponseArgument> responseList = new ArrayList<>();
+        responseList.add(new ErroFormResponseArgument(exception.getMessage()));
+        return responseList;
+
+    }
+
+    @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(BloqueioNotValidException.class)
+    public List<ErroFormResponseArgument> handle(BloqueioNotValidException exception){
+
+        List<ErroFormResponseArgument> responseList = new ArrayList<>();
+        responseList.add(new ErroFormResponseArgument(exception.getMessage()));
+        return responseList;
+
+    }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MalformedURLException.class)
+    public List<ErroFormResponseArgument> handle(MalformedURLException exception){
 
         List<ErroFormResponseArgument> responseList = new ArrayList<>();
         responseList.add(new ErroFormResponseArgument(exception.getMessage()));

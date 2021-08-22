@@ -1,4 +1,4 @@
-package br.com.zup.proposta.gerarcartao.response;
+package br.com.zup.proposta.cartao.response;
 
 import java.time.LocalDateTime;
 

@@ -1,4 +1,4 @@
-package br.com.zup.proposta.gerarcartao.response;
+package br.com.zup.proposta.cartao.response;
 
 public class ParcelaResponse {
     private String id;

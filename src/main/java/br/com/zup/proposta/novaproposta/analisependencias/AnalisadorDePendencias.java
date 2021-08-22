@@ -1,7 +1,7 @@
 package br.com.zup.proposta.novaproposta.analisependencias;
 
 
-import br.com.zup.proposta.gerarcartao.GeradorCartaoApiExterna;
+import br.com.zup.proposta.cartao.GeradorCartaoApiExterna;
 import br.com.zup.proposta.novaproposta.Proposta;
 import br.com.zup.proposta.novaproposta.PropostaRepository;
 import br.com.zup.proposta.novaproposta.consultarestricao.EstadoPropostaService;

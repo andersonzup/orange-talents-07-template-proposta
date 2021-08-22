@@ -1,7 +1,8 @@
-package br.com.zup.proposta.gerarcartao.entity;
+package br.com.zup.proposta.cartao.entity;
 
 
-import br.com.zup.proposta.gerarcartao.response.CartaoGeradoResponse;
+import br.com.zup.proposta.bloqueiocartao.Bloqueio;
+import br.com.zup.proposta.cartao.response.CartaoGeradoResponse;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -23,37 +24,42 @@ public class Cartao {
 
     private String titular;
 
-    private boolean blocked = false;
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "cartao_id")
+    private List<Bloqueio> bloqueio;
 
     @OneToMany
+    @JoinColumn(name = "cartao_id")
     private List<Aviso> avisos;
 
     @OneToMany
+    @JoinColumn(name = "cartao")
     private List<Carteira> carteiras;
 
     private double limite;
 
-    @Embedded
-    private Vencimento vencimentoResponse;
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn
+    private Vencimento vencimento;
 
     private String idProposta;
 
     @Deprecated
     public Cartao() {
     }
-
+    @Deprecated
     public Cartao(String numero, LocalDateTime emitidoEm, String titular,
-                  boolean blocked, List<Aviso> avisos, List<Carteira> carteiras, double limite,
-                  Vencimento vencimentoResponse, String idProposta) {
+                  List<Bloqueio> bloqueio, List<Aviso> avisos, List<Carteira> carteiras, double limite,
+                  Vencimento vencimento, String idProposta) {
 
         this.numero = numero;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
-        this.blocked = blocked;
+        this.bloqueio = bloqueio;
         this.avisos = avisos;
         this.carteiras = carteiras;
         this.limite = limite;
-        this.vencimentoResponse = vencimentoResponse;
+        this.vencimento = vencimento;
         this.idProposta = idProposta;
     }
 
@@ -64,7 +70,7 @@ public class Cartao {
         this.titular = response.getTitular();
         this.carteiras = toCarteirasList(response);
         this.limite = response.getLimite();
-        this.vencimentoResponse = new Vencimento(response.getVencimento());
+        this.vencimento = new Vencimento(response.getVencimento());
         this.idProposta = response.getIdProposta();
     }
 
@@ -88,6 +94,14 @@ public class Cartao {
 
     public String getNumero() {
         return numero;
+    }
+
+    public List<Bloqueio> getBloqueio() {
+        return bloqueio;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @Override

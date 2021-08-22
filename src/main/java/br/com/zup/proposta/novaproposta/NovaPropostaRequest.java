@@ -10,7 +10,7 @@ import javax.validation.constraints.PositiveOrZero;
 
 public class NovaPropostaRequest {
 
-    @CPFOrCNPJ
+    //@CPFOrCNPJ
     @NotBlank
     @UniqueValue(domainClass = Proposta.class, fieldName = "documento", message = "Solicitante já requisitou uma proposta")
     private String documento;

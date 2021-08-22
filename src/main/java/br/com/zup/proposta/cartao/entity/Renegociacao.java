@@ -1,6 +1,6 @@
-package br.com.zup.proposta.gerarcartao.entity;
+package br.com.zup.proposta.cartao.entity;
 
-import br.com.zup.proposta.gerarcartao.response.RenegociacaoResponse;
+import br.com.zup.proposta.cartao.response.RenegociacaoResponse;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

@@ -1,18 +1,28 @@
-package br.com.zup.proposta.gerarcartao.entity;
+package br.com.zup.proposta.cartao.entity;
 
-import br.com.zup.proposta.gerarcartao.response.VencimentoResponse;
+import br.com.zup.proposta.cartao.response.VencimentoResponse;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Embeddable
+@Entity
 public class Vencimento {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String idVencimento;
     private int dia;
 
-    @Column(insertable = false, updatable = false)
-    private LocalDateTime dataDeCriacao;
+    private LocalDateTime dataDeCriacao = LocalDateTime.now();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Deprecated
     public Vencimento() {

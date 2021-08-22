@@ -1,23 +1,28 @@
-package br.com.zup.proposta.gerarcartao.response;
+package br.com.zup.proposta.bloqueiocartao;
+
+import br.com.zup.proposta.cartao.entity.Cartao;
 
 import java.time.LocalDateTime;
 
-public class BloqueioResponse {
+public class BloqueioAtivoResponse {
+
     private String id;
     private LocalDateTime bloqueadoEm;
     private String sistemaResponsavel;
     private boolean ativo;
 
     @Deprecated
-    public BloqueioResponse() {
+    public BloqueioAtivoResponse() {
     }
 
-    public BloqueioResponse(String id, LocalDateTime bloqueadoEm, String sistemaResponsavel, boolean ativo) {
+    public BloqueioAtivoResponse(String id, LocalDateTime bloqueadoEm, String sistemaResponsavel, boolean ativo) {
         this.id = id;
         this.bloqueadoEm = bloqueadoEm;
         this.sistemaResponsavel = sistemaResponsavel;
         this.ativo = ativo;
+
     }
+
 
     public String getId() {
         return id;

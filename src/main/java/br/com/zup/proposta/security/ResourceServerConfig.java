@@ -19,9 +19,10 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
                         .antMatchers(HttpMethod.POST, "/api/v1/propostas").hasAuthority("SCOPE_escopo-proposta-cartao")
                         .antMatchers(HttpMethod.POST, "/api/v1/propostas/*").hasAuthority("SCOPE_escopo-proposta-cartao")
                         .antMatchers(HttpMethod.POST, "/cartoes/**").hasAuthority("SCOPE_escopo-proposta-cartao")
+                        .antMatchers(HttpMethod.POST, "/api/v1/bloqueios/**").hasAuthority("SCOPE_escopo-proposta-cartao")
+                        .antMatchers(HttpMethod.POST, "/api/v1/bloqueios").hasAuthority("SCOPE_escopo-proposta-cartao")
                         .anyRequest().authenticated()
         ).oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
-
 
     }
 }

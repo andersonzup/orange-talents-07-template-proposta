@@ -1,4 +1,6 @@
-package br.com.zup.proposta.gerarcartao.response;
+package br.com.zup.proposta.cartao.response;
+
+import br.com.zup.proposta.bloqueiocartao.BloqueioAtivoResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -7,7 +9,7 @@ public class CartaoGeradoResponse {
     private String id;
     private LocalDateTime emitidoEm;
     private String titular;
-    private List<BloqueioResponse> bloqueios;
+    private List<BloqueioAtivoResponse> bloqueios;
     private List<AvisoResponse> avisos;
     private List<CarteiraResponse> carteiras;
     private List<ParcelaResponse> parcelas;
@@ -20,7 +22,7 @@ public class CartaoGeradoResponse {
     public CartaoGeradoResponse() {
     }
 
-    public CartaoGeradoResponse(String id, LocalDateTime emitidoEm, String titular, List<BloqueioResponse> bloqueios, List<AvisoResponse> avisos, List<CarteiraResponse> carteiras,
+    public CartaoGeradoResponse(String id, LocalDateTime emitidoEm, String titular, List<BloqueioAtivoResponse> bloqueios, List<AvisoResponse> avisos, List<CarteiraResponse> carteiras,
                                 List<ParcelaResponse> parcelas, double limite, RenegociacaoResponse renegociacao, VencimentoResponse vencimento, String idProposta) {
         this.id = id;
         this.emitidoEm = emitidoEm;
@@ -47,7 +49,7 @@ public class CartaoGeradoResponse {
         return titular;
     }
 
-    public List<BloqueioResponse> getBloqueios() {
+    public List<BloqueioAtivoResponse> getBloqueios() {
         return bloqueios;
     }
 

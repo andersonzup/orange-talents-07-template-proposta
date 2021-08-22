@@ -1,6 +1,4 @@
-package br.com.zup.proposta.gerarcartao.response;
-
-import br.com.zup.proposta.gerarcartao.entity.Renegociacao;
+package br.com.zup.proposta.cartao.response;
 
 import java.time.LocalDateTime;
 

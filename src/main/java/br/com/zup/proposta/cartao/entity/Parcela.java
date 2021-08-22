@@ -1,6 +1,6 @@
-package br.com.zup.proposta.gerarcartao.entity;
+package br.com.zup.proposta.cartao.entity;
 
-import br.com.zup.proposta.gerarcartao.response.ParcelaResponse;
+import br.com.zup.proposta.cartao.response.ParcelaResponse;
 
 import javax.persistence.*;
 

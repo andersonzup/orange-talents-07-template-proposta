@@ -1,6 +1,6 @@
-package br.com.zup.proposta.gerarcartao;
+package br.com.zup.proposta.cartao;
 
-import br.com.zup.proposta.gerarcartao.entity.Cartao;
+import br.com.zup.proposta.cartao.entity.Cartao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
