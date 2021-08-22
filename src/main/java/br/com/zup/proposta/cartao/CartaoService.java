@@ -17,6 +17,7 @@ import javax.transaction.Transactional;
 
 import java.util.List;
 
+import static br.com.zup.proposta.cartao.StatusCartao.*;
 import static br.com.zup.proposta.novaproposta.EstadoProposta.APROVADO;
 import static br.com.zup.proposta.novaproposta.EstadoProposta.ELEGIVEL;
 
@@ -70,7 +71,7 @@ public class CartaoService {
         for (Cartao cartao: cartoes) {
             CartaoGeradoResponse response = cartaoApiExterna.getCartaoGeradoResponse(cartao.getNumero());
             Cartao toCartao = cartaoRepository.findByNumero(response.getId());
-            //Colocar aqui as atualizações de cartão
+
 
         }
         System.out.println("Atualizando Base de cartoes Local");
@@ -83,42 +84,60 @@ public class CartaoService {
         throw new CartaoNotFoundException(cartaoId);
     }
 
+
+
     public void bloqueadorDeCartao(String idCartao, BloqueioRequest request, String ip){
 
         boolean existsCartao = verificadorDeCartao(idCartao);
         Cartao cartao = cartaoRepository.findByNumero(idCartao);
-        boolean isBloqueado =  verificaBloqueioApiExterna(idCartao);
+        boolean isBloqueadoApi =  verificaBloqueioApiExterna(idCartao);
         boolean isBloqueadoBD = verificaBloqueioBancoDeDados(cartao);
 
-        if (isBloqueado || isBloqueadoBD){
+        if (isBloqueadoApi || isBloqueadoBD){
             throw new BloqueioNotValidException("Existe um bloqueio ativo para este cartão");
-            //Se não houver bloqueio na API o bd deve ser atualizado.
         }
 
+        bloquearCartaoApiExterna(idCartao, request);
+        bloqueiaCartaoBDLocal(idCartao, ip, existsCartao, cartao, isBloqueadoBD);
+    }
+
+    private void bloqueiaCartaoBDLocal(String idCartao, String ip, boolean existsCartao, Cartao cartao, boolean isBloqueadoBD) {
+        if ( existsCartao && !isBloqueadoBD){
+            BloqueioAtivoResponse bloqueioAtivoResponse = getBloqueioAtivoApi(idCartao);
+            cartao.getBloqueio().add(new Bloqueio(bloqueioAtivoResponse, ip, cartao));
+            if (DESBLOQUEADO.equals(cartao.getStatus())){
+                cartao.atualizaStatusCartao();
+                cartaoRepository.save(cartao);
+            }else if (BLOQUEADO.equals(cartao.getStatus())){
+                cartaoRepository.save(cartao);
+            }
+
+        }
+    }
+
+    /**
+     * Método que realiza a chamada para API e bloqueia o cartão
+     * @param idCartao
+     * @param request
+     */
+    private void bloquearCartaoApiExterna(String idCartao, BloqueioRequest request) {
         BloqueioResponse response = null;
         try {
             response = cartaoApiExterna.getBloqueio(idCartao, request);
+
 
         } catch (FeignException e) {
             if(e.status() == HttpStatus.UNPROCESSABLE_ENTITY.value()){
                 throw new BloqueioNotValidException("Existe um bloqueio ativo para este cartão");
             }
         }
-        String resultado = response.getResultado();
-        if (!isBloqueado && existsCartao){
-            BloqueioAtivoResponse ativoResponse = getBloqueiAtivoMethod(idCartao);
-            cartao.getBloqueio().add(new Bloqueio(ativoResponse, ip, cartao));
-            cartaoRepository.save(cartao);
-
-        }
-
     }
 
 
-    private boolean verificaBloqueioBancoDeDados(Cartao cartao) {
+    public boolean verificaBloqueioBancoDeDados(Cartao cartao) {
         boolean isBloqueado = false;
         try {
-            isBloqueado = bloqueioRepository.existsByCartaoAndAtivoTrue(cartao.getId());
+            isBloqueado = bloqueioRepository.existsByCartaoAndAtivoTrue(cartao.getId());//Ativo é bloqueio ativo
         } catch (RuntimeException e) {
             return isBloqueado;
         }
@@ -138,7 +157,7 @@ public class CartaoService {
         return isBloqueado;
     }
 
-    private BloqueioAtivoResponse getBloqueiAtivoMethod(String idCartao){
+    private BloqueioAtivoResponse getBloqueioAtivoApi(String idCartao){
         CartaoGeradoResponse geradoResponse = cartaoApiExterna.getCartaoGeradoResponse(idCartao);
         List<BloqueioAtivoResponse> ativoResponseList = geradoResponse.getBloqueios();
         for (BloqueioAtivoResponse bloqueio: ativoResponseList) {

@@ -2,6 +2,7 @@ package br.com.zup.proposta.cartao.entity;
 
 
 import br.com.zup.proposta.bloqueiocartao.Bloqueio;
+import br.com.zup.proposta.cartao.StatusCartao;
 import br.com.zup.proposta.cartao.response.CartaoGeradoResponse;
 
 import javax.persistence.*;
@@ -9,6 +10,9 @@ import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static br.com.zup.proposta.cartao.StatusCartao.*;
 
 @Entity
 public class Cartao {
@@ -27,6 +31,8 @@ public class Cartao {
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn(name = "cartao_id")
     private List<Bloqueio> bloqueio;
+
+    private StatusCartao status;
 
     @OneToMany
     @JoinColumn(name = "cartao_id")
@@ -72,6 +78,15 @@ public class Cartao {
         this.limite = response.getLimite();
         this.vencimento = new Vencimento(response.getVencimento());
         this.idProposta = response.getIdProposta();
+        this.status = DESBLOQUEADO;
+    }
+
+    public void atualizaStatusCartao(){
+        if (DESBLOQUEADO.equals(this.status)){
+            this.status = BLOQUEADO;
+        }else if (BLOQUEADO.equals(this.status)){
+            this.status = DESBLOQUEADO;
+        }
     }
 
     private List<Parcela> toParcelasList(CartaoGeradoResponse response) {
@@ -102,6 +117,23 @@ public class Cartao {
 
     public Long getId() {
         return id;
+    }
+
+    public StatusCartao getStatus() {
+        return status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cartao)) return false;
+        Cartao cartao = (Cartao) o;
+        return status == cartao.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(status);
     }
 
     @Override
