@@ -114,7 +114,6 @@ public class CartaoService {
 
         }
     }
-
     /**
      * Método que realiza a chamada para API e bloqueia o cartão
      * @param idCartao
