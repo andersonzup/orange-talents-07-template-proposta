@@ -12,7 +12,7 @@ public class BloqueioRequest {
     public BloqueioRequest() {
     }
 
-    public BloqueioRequest(String sistemaResponsavel, boolean ativo) {
+    public BloqueioRequest(String sistemaResponsavel) {
         this.sistemaResponsavel = sistemaResponsavel;
     }
 
@@ -21,4 +21,7 @@ public class BloqueioRequest {
         return sistemaResponsavel;
     }
 
+    public void setSistemaResponsavel(String sistemaResponsavel) {
+        this.sistemaResponsavel = sistemaResponsavel;
+    }
 }

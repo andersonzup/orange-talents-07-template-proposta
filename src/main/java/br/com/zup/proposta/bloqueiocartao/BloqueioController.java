@@ -21,9 +21,11 @@ public class BloqueioController {
         this.servletRequest = servletRequest;
     }
 
-    @PostMapping(path = "/{id}")
-    public String bloquearCartao(@PathVariable("id") String id, @RequestBody @Valid BloqueioRequest request) throws MalformedURLException {
+    @GetMapping(path = "/{id}")
+    public String bloquearCartao(@PathVariable("id") String id, @RequestHeader("USER-AGENT") String userAgent) throws MalformedURLException {
         validacaoURL(id);
+        @Valid
+        BloqueioRequest request = new BloqueioRequest(userAgent);
         cartaoService.bloqueadorDeCartao(id, request, capturaIp());
         return "Cartão bloqueado";
     }
