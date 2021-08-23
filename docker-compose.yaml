@@ -22,29 +22,18 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
+
   postgrespropostas:
     image: 'postgres:9.6-alpine'
     volumes:
       - propostas-volume:/var/lib/postgresql/data
     ports:
-      - 5435:5432
-    environment:
-      POSTGRES_USER: propostas
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: proposta
-      POSTGRES_HOST: postgrespropostas
-
-  postgrespropostasdev:
-    image: 'postgres:9.6-alpine'
-    volumes:
-      - propostasdev-volume:/var/lib/postgresql/data
-    ports:
       - 5434:5432
     environment:
-      POSTGRES_USER: propostas
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: proposta_Dev
-      POSTGRES_HOST: postgrespropostasdev
+      POSTGRES_USER: developer
+      POSTGRES_PASSWORD: 1234567
+      POSTGRES_DB: proposta
+      POSTGRES_HOST: postgrespropostas
 
   postgres:
     image: 'postgres:9.6-alpine'
@@ -169,6 +158,8 @@ services:
       VAULT_DEV_ROOT_TOKEN_ID: ee413645-dbe8-4848-afc6-6bb2768ada75
       VAULT_TOKEN: ee413645-dbe8-4848-afc6-6bb2768ada75
       VAULT_ADDR: http://127.0.0.1:8200
+
+
   apipropostas:
     image: 'santanaanderson/propostas'
     ports:
@@ -186,13 +177,14 @@ services:
       DB_HOST: postgrespropostas
       DB_PORT: 5432
       DB_NAME: proposta
-      DB_USERNAME: propostas
-      DB_PASSWORD: password
+      DB_USERNAME: developer
+      DB_PASSWORD: 1234567
+      DDL_AUTO: create
 
     depends_on:
       - postgrespropostas
-      - contas
       - analise
+      - contas
 
 
 
@@ -201,5 +193,4 @@ volumes:
   prometheus-volume:
   postgres-volume:
   propostas-volume:
-  propostasdev-volume:
 

@@ -29,10 +29,11 @@ public class CartaoService {
     private CartaoRepository cartaoRepository;
     private BloqueioRepository bloqueioRepository;
 
-    public CartaoService(PropostaRepository propostaRepository, GeradorCartaoApiExterna cartaoApiExterna, CartaoRepository cartaoRepository) {
+    public CartaoService(PropostaRepository propostaRepository, GeradorCartaoApiExterna cartaoApiExterna, CartaoRepository cartaoRepository, BloqueioRepository bloqueioRepository) {
         this.propostaRepository = propostaRepository;
         this.cartaoApiExterna = cartaoApiExterna;
         this.cartaoRepository = cartaoRepository;
+        this.bloqueioRepository = bloqueioRepository;
     }
 
     @Scheduled(fixedDelayString = "${proposta.cartao.scheduled.fixeddelay}", initialDelayString = "${proposta.cartao.scheduled.initialdelay}")

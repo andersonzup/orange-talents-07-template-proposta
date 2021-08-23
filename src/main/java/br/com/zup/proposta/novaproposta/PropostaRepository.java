@@ -11,5 +11,4 @@ public interface PropostaRepository extends JpaRepository<Proposta, Long> {
 
     List<Proposta> findAllByEstado(EstadoProposta estado);
 
-    List<Proposta> findAllByEstadoAndCartaoNotNull(EstadoProposta estado);
 }
