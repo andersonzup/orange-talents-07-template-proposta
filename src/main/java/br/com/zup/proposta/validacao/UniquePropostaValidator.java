@@ -1,10 +1,8 @@
 package br.com.zup.proposta.validacao;
 
 import br.com.zup.proposta.exception.PropostaNotValidException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +12,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.List;
 
 @Component
-public class UniqueValueValidator implements ConstraintValidator<UniqueValue, Object> {
+public class UniquePropostaValidator implements ConstraintValidator<UniqueProposta, Object> {
 
     private String atributos;
     private Class<?> dClass;
@@ -23,7 +21,7 @@ public class UniqueValueValidator implements ConstraintValidator<UniqueValue, Ob
     private EntityManager entityManager;
 
     @Override
-    public void initialize(UniqueValue parametros) {
+    public void initialize(UniqueProposta parametros) {
         atributos = parametros.fieldName();
         dClass = parametros.domainClass();
 
@@ -35,6 +33,9 @@ public class UniqueValueValidator implements ConstraintValidator<UniqueValue, Ob
         query.setParameter("value", value);
         List<?> list = query.getResultList();
         Assert.state(list.size() <= 1, "Foi encontrado mais de um "+dClass+" com o atributo "+atributos+" = "+value);
+       if (!list.isEmpty()){
+           throw new PropostaNotValidException(context.getDefaultConstraintMessageTemplate());
+       }
 
         return list.isEmpty();
 

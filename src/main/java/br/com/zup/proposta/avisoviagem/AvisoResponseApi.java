@@ -1,16 +1,16 @@
-package br.com.zup.proposta.cartao.response;
+package br.com.zup.proposta.avisoviagem;
 
 import java.time.LocalDateTime;
 
-public class AvisoResponse {
+public class AvisoResponseApi {
     private LocalDateTime validoAte;
     private String destino;
 
     @Deprecated
-    public AvisoResponse() {
+    public AvisoResponseApi() {
     }
 
-    public AvisoResponse(LocalDateTime validoAte, String destino) {
+    public AvisoResponseApi(LocalDateTime validoAte, String destino) {
         this.validoAte = validoAte;
         this.destino = destino;
     }

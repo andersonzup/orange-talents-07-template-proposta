@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 import static br.com.zup.proposta.cartao.StatusCartao.*;
@@ -167,7 +168,6 @@ public class CartaoService {
         }
         throw new BloqueioNotValidException("Não existe bloqueio ativo");
     }
-
 
 
 

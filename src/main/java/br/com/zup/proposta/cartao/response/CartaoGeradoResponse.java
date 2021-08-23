@@ -1,5 +1,6 @@
 package br.com.zup.proposta.cartao.response;
 
+import br.com.zup.proposta.avisoviagem.AvisoResponseApi;
 import br.com.zup.proposta.bloqueiocartao.BloqueioAtivoResponse;
 
 import java.time.LocalDateTime;
@@ -10,7 +11,7 @@ public class CartaoGeradoResponse {
     private LocalDateTime emitidoEm;
     private String titular;
     private List<BloqueioAtivoResponse> bloqueios;
-    private List<AvisoResponse> avisos;
+    private List<AvisoResponseApi> avisos;
     private List<CarteiraResponse> carteiras;
     private List<ParcelaResponse> parcelas;
     private double limite;
@@ -22,7 +23,7 @@ public class CartaoGeradoResponse {
     public CartaoGeradoResponse() {
     }
 
-    public CartaoGeradoResponse(String id, LocalDateTime emitidoEm, String titular, List<BloqueioAtivoResponse> bloqueios, List<AvisoResponse> avisos, List<CarteiraResponse> carteiras,
+    public CartaoGeradoResponse(String id, LocalDateTime emitidoEm, String titular, List<BloqueioAtivoResponse> bloqueios, List<AvisoResponseApi> avisos, List<CarteiraResponse> carteiras,
                                 List<ParcelaResponse> parcelas, double limite, RenegociacaoResponse renegociacao, VencimentoResponse vencimento, String idProposta) {
         this.id = id;
         this.emitidoEm = emitidoEm;
@@ -53,7 +54,7 @@ public class CartaoGeradoResponse {
         return bloqueios;
     }
 
-    public List<AvisoResponse> getAvisos() {
+    public List<AvisoResponseApi> getAvisos() {
         return avisos;
     }
 

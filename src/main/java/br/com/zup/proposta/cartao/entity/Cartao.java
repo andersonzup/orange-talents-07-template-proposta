@@ -1,6 +1,7 @@
 package br.com.zup.proposta.cartao.entity;
 
 
+import br.com.zup.proposta.avisoviagem.Aviso;
 import br.com.zup.proposta.bloqueiocartao.Bloqueio;
 import br.com.zup.proposta.cartao.StatusCartao;
 import br.com.zup.proposta.cartao.response.CartaoGeradoResponse;
@@ -34,7 +35,7 @@ public class Cartao {
 
     private StatusCartao status;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn(name = "cartao_id")
     private List<Aviso> avisos;
 
@@ -100,14 +101,7 @@ public class Cartao {
         response.getCarteiras().forEach(e-> carteiras.add(new Carteira(e)));
         return carteiras;
     }
-
-    private List<Aviso> toAvisoList(CartaoGeradoResponse response){
-        List<Aviso> avisos = new ArrayList<>();
-        response.getAvisos().forEach(e-> avisos.add(new Aviso(e)));
-        return avisos;
-    }
-
-    public String getNumero() {
+        public String getNumero() {
         return numero;
     }
 
@@ -121,6 +115,11 @@ public class Cartao {
 
     public StatusCartao getStatus() {
         return status;
+    }
+
+
+    public List<Aviso> getAvisos() {
+        return avisos;
     }
 
     @Override

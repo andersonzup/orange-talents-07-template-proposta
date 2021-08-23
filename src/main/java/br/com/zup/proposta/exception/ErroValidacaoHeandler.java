@@ -24,7 +24,7 @@ public class ErroValidacaoHeandler {
         this.messageSource = messageSource;
     }
 
-    @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public List<ErroFormResponse> handle(MethodArgumentNotValidException exception){
 
@@ -47,6 +47,16 @@ public class ErroValidacaoHeandler {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalBase64Exception.class)
     public List<ErroFormResponseArgument> handle(IllegalBase64Exception exception){
+
+        List<ErroFormResponseArgument> responseList = new ArrayList<>();
+        responseList.add(new ErroFormResponseArgument(exception.getMessage()));
+        return responseList;
+
+    }
+
+    @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(PropostaNotValidException.class)
+    public List<ErroFormResponseArgument> handle(PropostaNotValidException exception){
 
         List<ErroFormResponseArgument> responseList = new ArrayList<>();
         responseList.add(new ErroFormResponseArgument(exception.getMessage()));

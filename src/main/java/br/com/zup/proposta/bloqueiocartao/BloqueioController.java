@@ -1,6 +1,7 @@
 package br.com.zup.proposta.bloqueiocartao;
 
 import br.com.zup.proposta.cartao.CartaoService;
+import br.com.zup.proposta.utils.UtilMethods;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,27 +24,14 @@ public class BloqueioController {
 
     @GetMapping(path = "/{id}")
     public String bloquearCartao(@PathVariable("id") String id, @RequestHeader("USER-AGENT") String userAgent) throws MalformedURLException {
-        validacaoURL(id);
+        String ipAddress = UtilMethods.validaIp(servletRequest.getHeader("X-FORWARDED-FOR"), servletRequest);
+        UtilMethods.validacaoCartaoId(id);
         @Valid
         BloqueioRequest request = new BloqueioRequest(userAgent);
-        cartaoService.bloqueadorDeCartao(id, request, capturaIp());
+        cartaoService.bloqueadorDeCartao(id, request, ipAddress);
         return "Cartão bloqueado";
     }
 
-    private String capturaIp() {
-        String ipAddress = servletRequest.getHeader("X-FORWARDED-FOR");
-        if (ipAddress == null) {
-            ipAddress = servletRequest.getRemoteAddr();
-            return ipAddress;
-        }
-        return "0.0.0.0";
-    }
-
-    private void validacaoURL(String id) throws MalformedURLException {
-        if(id.length() < 19){
-            throw new MalformedURLException("Número do cartão inválido");
-        }
-    }
 
 
 }
