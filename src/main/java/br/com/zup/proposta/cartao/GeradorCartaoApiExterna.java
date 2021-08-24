@@ -8,6 +8,8 @@ import br.com.zup.proposta.bloqueiocartao.BloqueioRequest;
 import br.com.zup.proposta.bloqueiocartao.BloqueioAtivoResponse;
 import br.com.zup.proposta.bloqueiocartao.BloqueioResponse;
 import br.com.zup.proposta.cartao.response.CartaoGeradoResponse;
+import br.com.zup.proposta.paypal.CarteiraRequest;
+import br.com.zup.proposta.paypal.CarteiraResponseApi;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,5 +30,9 @@ public interface GeradorCartaoApiExterna {
 
     @PostMapping(path = "/{id}/avisos")
     AvisoStatusResponseApi getAvisoApi(@PathVariable String id, AvisoRequestApi AvisoRequest);
+
+    @PostMapping(path = "/{id}/carteiras")
+    CarteiraResponseApi getCarteira(@PathVariable String id, CarteiraRequest carteiraRequest);
+
 
 }

@@ -1,9 +1,10 @@
-package br.com.zup.proposta.cartao.entity;
+package br.com.zup.proposta.paypal;
 
 import br.com.zup.proposta.cartao.response.CarteiraResponse;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 public class Carteira {
@@ -13,18 +14,18 @@ public class Carteira {
 
     private String idCarteira;
     private String email;
-    private LocalDateTime associadaEm;
-    private String emissor;
+    private LocalDateTime associadaEm = LocalDateTime.now();
+
+    private EnumCarteira emissor;
 
     @Deprecated
     public Carteira() {
     }
 
-    public Carteira(String idCarteira, String email, LocalDateTime associadaEm, String emissor) {
+    public Carteira(String idCarteira, String email, EnumCarteira associacao) {
         this.idCarteira = idCarteira;
         this.email = email;
-        this.associadaEm = associadaEm;
-        this.emissor = emissor;
+        this.emissor = associacao;
     }
 
     public Carteira(CarteiraResponse response) {
@@ -32,6 +33,11 @@ public class Carteira {
         this.email = response.getEmail();
         this.associadaEm = response.getAssociadaEm();
         this.emissor = response.getEmissor();
+    }
+
+
+    public Long getId() {
+        return id;
     }
 
     public String getIdCarteira() {
@@ -46,7 +52,20 @@ public class Carteira {
         return associadaEm;
     }
 
-    public String getEmissor() {
+    public EnumCarteira getEmissor() {
         return emissor;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Carteira)) return false;
+        Carteira carteira = (Carteira) o;
+        return emissor == carteira.emissor;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(emissor);
     }
 }

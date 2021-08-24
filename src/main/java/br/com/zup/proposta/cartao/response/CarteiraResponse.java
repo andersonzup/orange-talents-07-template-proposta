@@ -1,18 +1,21 @@
 package br.com.zup.proposta.cartao.response;
 
+import br.com.zup.proposta.paypal.EnumCarteira;
+
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class CarteiraResponse {
     private String id;
     private String email;
     private LocalDateTime associadaEm;
-    private String emissor;
+    private EnumCarteira emissor;
 
     @Deprecated
     public CarteiraResponse() {
     }
 
-    public CarteiraResponse(String id, String email, LocalDateTime associadaEm, String emissor) {
+    public CarteiraResponse(String id, String email, LocalDateTime associadaEm, EnumCarteira emissor) {
         this.id = id;
         this.email = email;
         this.associadaEm = associadaEm;
@@ -31,7 +34,7 @@ public class CarteiraResponse {
         return associadaEm;
     }
 
-    public String getEmissor() {
+    public EnumCarteira getEmissor() {
         return emissor;
     }
 }

@@ -5,6 +5,7 @@ import br.com.zup.proposta.avisoviagem.Aviso;
 import br.com.zup.proposta.bloqueiocartao.Bloqueio;
 import br.com.zup.proposta.cartao.StatusCartao;
 import br.com.zup.proposta.cartao.response.CartaoGeradoResponse;
+import br.com.zup.proposta.paypal.Carteira;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -39,7 +40,7 @@ public class Cartao {
     @JoinColumn(name = "cartao_id")
     private List<Aviso> avisos;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn(name = "cartao")
     private List<Carteira> carteiras;
 
@@ -75,7 +76,6 @@ public class Cartao {
         this.numero = response.getId();
         this.emitidoEm = response.getEmitidoEm();
         this.titular = response.getTitular();
-        this.carteiras = toCarteirasList(response);
         this.limite = response.getLimite();
         this.vencimento = new Vencimento(response.getVencimento());
         this.idProposta = response.getIdProposta();
@@ -96,11 +96,7 @@ public class Cartao {
         return parcelas;
     }
 
-    private List<Carteira> toCarteirasList(CartaoGeradoResponse response) {
-        List<Carteira> carteiras = new ArrayList<>();
-        response.getCarteiras().forEach(e-> carteiras.add(new Carteira(e)));
-        return carteiras;
-    }
+
         public String getNumero() {
         return numero;
     }
@@ -120,6 +116,10 @@ public class Cartao {
 
     public List<Aviso> getAvisos() {
         return avisos;
+    }
+
+    public List<Carteira> getCarteiras() {
+        return carteiras;
     }
 
     @Override
