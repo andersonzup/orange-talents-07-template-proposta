@@ -1,5 +1,6 @@
 package br.com.zup.proposta.avisoviagem;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.validation.constraints.Future;
@@ -16,31 +17,27 @@ public class AvisoRequest {
     @NotNull
     @Future
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    private LocalDate terminaEm;
+    private LocalDate validoAte;
 
     @Deprecated
     public AvisoRequest() {
     }
 
-    public AvisoRequest(String destino, LocalDate terminaEm) {
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public AvisoRequest(String destino, LocalDate validoAte) {
         this.destino = destino;
-        this.terminaEm = terminaEm;
+        this.validoAte = validoAte;
     }
 
+    public void setValidoAte(LocalDate validoAte) {
+        this.validoAte = validoAte;
+    }
 
     public String getDestino() {
         return destino;
     }
 
-    public LocalDate getTerminaEm() {
-        return terminaEm;
-    }
-
-    @Override
-    public String toString() {
-        return "AvisoRequest{" +
-                "destino='" + destino + '\'' +
-                ", terminaEm=" + terminaEm +
-                '}';
+    public LocalDate getValidoAte() {
+        return validoAte;
     }
 }

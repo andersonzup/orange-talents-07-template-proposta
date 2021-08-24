@@ -1,6 +1,9 @@
 package br.com.zup.proposta.cartao;
 
 
+import br.com.zup.proposta.avisoviagem.AvisoRequest;
+import br.com.zup.proposta.avisoviagem.AvisoRequestApi;
+import br.com.zup.proposta.avisoviagem.AvisoStatusResponseApi;
 import br.com.zup.proposta.bloqueiocartao.BloqueioRequest;
 import br.com.zup.proposta.bloqueiocartao.BloqueioAtivoResponse;
 import br.com.zup.proposta.bloqueiocartao.BloqueioResponse;
@@ -22,4 +25,8 @@ public interface GeradorCartaoApiExterna {
 
     @PostMapping(path = "/{id}/bloqueios")
     BloqueioAtivoResponse getBloqueioAtivo(@PathVariable String id, BloqueioRequest request);
+
+    @PostMapping(path = "/{id}/avisos")
+    AvisoStatusResponseApi getAvisoApi(@PathVariable String id, AvisoRequestApi AvisoRequest);
+
 }

@@ -64,6 +64,16 @@ public class ErroValidacaoHeandler {
 
     }
 
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(SystemNotAvailableException.class)
+    public List<ErroFormResponseArgument> handle(SystemNotAvailableException exception){
+
+        List<ErroFormResponseArgument> responseList = new ArrayList<>();
+        responseList.add(new ErroFormResponseArgument(exception.getMessage()));
+        return responseList;
+
+    }
+
     @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(BloqueioNotValidException.class)
     public List<ErroFormResponseArgument> handle(BloqueioNotValidException exception){

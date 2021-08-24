@@ -1,12 +1,17 @@
 package br.com.zup.proposta.cartao;
 
+import br.com.zup.proposta.avisoviagem.AvisoRequest;
+import br.com.zup.proposta.avisoviagem.AvisoRequestApi;
+import br.com.zup.proposta.avisoviagem.AvisoStatusResponseApi;
 import br.com.zup.proposta.bloqueiocartao.*;
 import br.com.zup.proposta.cartao.entity.Cartao;
 import br.com.zup.proposta.cartao.response.CartaoGeradoResponse;
 import br.com.zup.proposta.exception.CartaoNotFoundException;
 import br.com.zup.proposta.exception.BloqueioNotValidException;
+import br.com.zup.proposta.exception.SystemNotAvailableException;
 import br.com.zup.proposta.novaproposta.Proposta;
 import br.com.zup.proposta.novaproposta.PropostaRepository;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,7 +20,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-import java.net.MalformedURLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static br.com.zup.proposta.cartao.StatusCartao.*;
@@ -170,6 +176,21 @@ public class CartaoService {
     }
 
 
+    public boolean cadastrarAvisoViagemApi(String id, AvisoRequest  request) {
 
+
+        LocalDate date = request.getValidoAte();
+
+        AvisoRequestApi avisoRequestApi = new AvisoRequestApi(request.getDestino(), date);
+        try {
+            AvisoStatusResponseApi avisoStatusResponseApi = cartaoApiExterna.getAvisoApi(id, avisoRequestApi);
+            if(avisoStatusResponseApi.getResultado().equals("CRIADO")){
+                return true;
+            }
+            throw new SystemNotAvailableException("Erro ao tentar cadastrar aviso");
+        } catch (FeignException e) {
+            throw new SystemNotAvailableException("Erro ao tentar cadastrar aviso");
+        }
+    }
 }
 

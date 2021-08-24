@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1/avisos")
@@ -37,14 +35,19 @@ public class AvisoViagemController {
 
         String ipAddress = UtilMethods.validaIp(servletRequest.getHeader("X-FORWARDED-FOR"), servletRequest);
         UtilMethods.validacaoCartaoId(id);
-        cartaoService.verificadorDeCartao(id);
-        Aviso aviso = new Aviso(request.getTerminaEm(), request.getDestino(), ipAddress, userAgent);
-        Cartao cartao =  cartaoRepository.findByNumero(id);
-        cartao.getAvisos().add(aviso);
-        cartaoRepository.save(cartao);
-        return "Aviso realizado com sucesso";
+        CadastrarAvisoViagem(id, request, userAgent, ipAddress);
+        return "Aviso criado com sucesso";
     }
 
+    private void CadastrarAvisoViagem(String id, AvisoRequest request, String userAgent, String ipAddress) {
+        cartaoService.verificadorDeCartao(id);
+        Aviso aviso = new Aviso(request.getValidoAte(), request.getDestino(), ipAddress, userAgent);
+        Cartao cartao =  cartaoRepository.findByNumero(id);
+        cartaoService.cadastrarAvisoViagemApi(id, request);
+
+        cartao.getAvisos().add(aviso);
+        cartaoRepository.save(cartao);
+    }
 
 
 }
