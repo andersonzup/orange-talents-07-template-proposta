@@ -7,6 +7,7 @@ import br.com.zup.proposta.cartao.GeradorCartaoApiExterna;
 import br.com.zup.proposta.cartao.entity.Cartao;
 import br.com.zup.proposta.carteira.carteiras.ContratoCarteira;
 import br.com.zup.proposta.carteira.carteiras.EnumCarteira;
+import br.com.zup.proposta.exception.ErroFormResponse;
 import br.com.zup.proposta.exception.UnprocessableEntityException;
 import br.com.zup.proposta.utils.UtilMethods;
 import feign.FeignException;
@@ -49,9 +50,13 @@ public class AssociacaoCarteiraController {
         CarteiraResponseApi responseApi = associarCarteiraApiExterna(id, new CarteiraRequest(carteiraRequest.getEmail(), carteiraRequest.getCarteira()));
         Carteira carteira = new Carteira(responseApi.getId(), carteiraRequest.getEmail(), carteiraRequest.getCarteira());
         cartao.getCarteiras().add(carteira);
-        ContratoCarteira contratoCarteira = carteiraRequest.getCarteira().getContratoCarteira();
-        return contratoCarteira.implementacaoCarteiras(componentsBuilder, carteira);
+        if(status.is4xxClientError()){
+            ErroFormResponse erroFormResponse = new ErroFormResponse("carteira", "carteira inválida");
+            return ResponseEntity.unprocessableEntity().body(erroFormResponse);
+        }
 
+        ContratoCarteira contratoCarteira = carteiraRequest.getCarteira().getContratoCarteira();
+        return contratoCarteira.implementacaoCarteiras(componentsBuilder, carteira, status);
     }
 
 
@@ -59,10 +64,9 @@ public class AssociacaoCarteiraController {
         List<Carteira> carteiras = cartao.getCarteiras();
         for (Carteira carteira : carteiras) {
             if (carteira.getEmissor().equals(carteiraAssociada)) {
-                throw new UnprocessableEntityException("Carteira já está associada a este cartão");
+                return HttpStatus.UNPROCESSABLE_ENTITY;
             }
         }
-
         return HttpStatus.OK;
     }
 
