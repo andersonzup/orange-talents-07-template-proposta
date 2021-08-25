@@ -1,15 +1,14 @@
 package br.com.zup.proposta.cartao;
 
 
-import br.com.zup.proposta.avisoviagem.AvisoRequest;
 import br.com.zup.proposta.avisoviagem.AvisoRequestApi;
 import br.com.zup.proposta.avisoviagem.AvisoStatusResponseApi;
 import br.com.zup.proposta.bloqueiocartao.BloqueioRequest;
 import br.com.zup.proposta.bloqueiocartao.BloqueioAtivoResponse;
 import br.com.zup.proposta.bloqueiocartao.BloqueioResponse;
 import br.com.zup.proposta.cartao.response.CartaoGeradoResponse;
-import br.com.zup.proposta.paypal.CarteiraRequest;
-import br.com.zup.proposta.paypal.CarteiraResponseApi;
+import br.com.zup.proposta.carteira.CarteiraRequest;
+import br.com.zup.proposta.carteira.CarteiraResponseApi;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

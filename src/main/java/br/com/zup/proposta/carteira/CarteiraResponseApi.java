@@ -1,4 +1,4 @@
-package br.com.zup.proposta.paypal;
+package br.com.zup.proposta.carteira;
 
 public class CarteiraResponseApi {
     private String resultado;

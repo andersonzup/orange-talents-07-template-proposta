@@ -1,10 +1,10 @@
-package br.com.zup.proposta.paypal;
+package br.com.zup.proposta.carteira;
+
+import br.com.zup.proposta.carteira.carteiras.EnumCarteira;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
-import static br.com.zup.proposta.paypal.EnumCarteira.PAYPAL;
 
 public class CarteiraRequest {
 

@@ -1,6 +1,7 @@
-package br.com.zup.proposta.paypal;
+package br.com.zup.proposta.carteira;
 
 import br.com.zup.proposta.cartao.response.CarteiraResponse;
+import br.com.zup.proposta.carteira.carteiras.EnumCarteira;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

@@ -5,7 +5,7 @@ import br.com.zup.proposta.avisoviagem.Aviso;
 import br.com.zup.proposta.bloqueiocartao.Bloqueio;
 import br.com.zup.proposta.cartao.StatusCartao;
 import br.com.zup.proposta.cartao.response.CartaoGeradoResponse;
-import br.com.zup.proposta.paypal.Carteira;
+import br.com.zup.proposta.carteira.Carteira;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

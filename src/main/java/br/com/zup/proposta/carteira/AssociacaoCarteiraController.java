@@ -1,11 +1,12 @@
-package br.com.zup.proposta.paypal;
+package br.com.zup.proposta.carteira;
 
 
 import br.com.zup.proposta.cartao.CartaoRepository;
 import br.com.zup.proposta.cartao.CartaoService;
 import br.com.zup.proposta.cartao.GeradorCartaoApiExterna;
 import br.com.zup.proposta.cartao.entity.Cartao;
-import br.com.zup.proposta.exception.SystemNotAvailableException;
+import br.com.zup.proposta.carteira.carteiras.ContratoCarteira;
+import br.com.zup.proposta.carteira.carteiras.EnumCarteira;
 import br.com.zup.proposta.exception.UnprocessableEntityException;
 import br.com.zup.proposta.utils.UtilMethods;
 import feign.FeignException;
@@ -17,7 +18,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -29,6 +29,8 @@ public class AssociacaoCarteiraController {
     private GeradorCartaoApiExterna cartaoApiExterna;
     private CarteiraRepository carteiraRepository;
 
+
+
     public AssociacaoCarteiraController(CartaoService cartaoService, CartaoRepository cartaoRepository, GeradorCartaoApiExterna cartaoApiExterna, CarteiraRepository carteiraRepository) {
         this.cartaoService = cartaoService;
         this.cartaoRepository = cartaoRepository;
@@ -38,18 +40,17 @@ public class AssociacaoCarteiraController {
 
     @PostMapping(path = "/{id}")
     @Transactional
-    public ResponseEntity<?> associarCarteira(@PathVariable("id") String id, @RequestBody @Valid CarteiraRequestPaypal requestPaypal, UriComponentsBuilder componentsBuilder) throws MalformedURLException {
+    public ResponseEntity<?> associarCarteira(@PathVariable("id") String id, @RequestBody @Valid CarteiraRequest carteiraRequest, UriComponentsBuilder componentsBuilder) throws MalformedURLException {
         UtilMethods.validacaoCartaoId(id);
         cartaoService.verificadorDeCartao(id);
         Cartao cartao = cartaoRepository.findByNumero(id);
-        HttpStatus status = verificarCarteirasAssociadasBd(id, requestPaypal.getCarteira(), cartao);
+        HttpStatus status = verificarCarteirasAssociadasBd(id, carteiraRequest.getCarteira(), cartao);
 
-        CarteiraResponseApi responseApi = associarCarteiraApiExterna(id, new CarteiraRequest(requestPaypal.getEmail(), requestPaypal.getCarteira()));
-        Carteira carteira = new Carteira(responseApi.getId(), requestPaypal.getEmail(), requestPaypal.getCarteira());
+        CarteiraResponseApi responseApi = associarCarteiraApiExterna(id, new CarteiraRequest(carteiraRequest.getEmail(), carteiraRequest.getCarteira()));
+        Carteira carteira = new Carteira(responseApi.getId(), carteiraRequest.getEmail(), carteiraRequest.getCarteira());
         cartao.getCarteiras().add(carteira);
-
-        URI uri = componentsBuilder.path("/api/v1/paypal/{id}").buildAndExpand(carteira.getIdCarteira()).toUri();
-        return ResponseEntity.created(uri).build();
+        ContratoCarteira contratoCarteira = carteiraRequest.getCarteira().getContratoCarteira();
+        return contratoCarteira.implementacaoCarteiras(componentsBuilder, carteira);
 
     }
 

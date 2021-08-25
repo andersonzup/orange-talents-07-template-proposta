@@ -1,9 +1,8 @@
 package br.com.zup.proposta.cartao.response;
 
-import br.com.zup.proposta.paypal.EnumCarteira;
+import br.com.zup.proposta.carteira.carteiras.EnumCarteira;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class CarteiraResponse {
     private String id;
