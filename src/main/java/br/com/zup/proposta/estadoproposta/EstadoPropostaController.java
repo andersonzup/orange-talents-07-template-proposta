@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/api/v1/propostas")
 public class EstadoPropostaController {
 
-    PropostaRepository propostaRepository;
+    private PropostaRepository propostaRepository;
 
     public EstadoPropostaController(PropostaRepository propostaRepository) {
         this.propostaRepository = propostaRepository;

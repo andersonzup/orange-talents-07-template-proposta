@@ -12,9 +12,9 @@ import java.net.MalformedURLException;
 @RequestMapping(path = "/api/v1/bloqueios")
 public class BloqueioController {
 
-    CartaoService cartaoService;
-    BloqueioRepository bloqueioRepository;
-    HttpServletRequest servletRequest;
+    private CartaoService cartaoService;
+    private BloqueioRepository bloqueioRepository;
+    private HttpServletRequest servletRequest;
 
     public BloqueioController(CartaoService cartaoService, BloqueioRepository bloqueioRepository, HttpServletRequest servletRequest) {
         this.cartaoService = cartaoService;

@@ -15,8 +15,8 @@ import java.net.URI;
 @RequestMapping(path = "/api/v1/biometria")
 public class BiometriaController {
 
-    BiometriaRepository biometriaRepository;
-    CartaoService cartaoService;
+    private BiometriaRepository biometriaRepository;
+    private CartaoService cartaoService;
 
     public BiometriaController(BiometriaRepository biometriaRepository, CartaoService cartaoService) {
         this.biometriaRepository = biometriaRepository;

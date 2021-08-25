@@ -17,9 +17,9 @@ import static br.com.zup.proposta.novaproposta.EstadoProposta.AGUARDANDO_APROVAC
 @Component
 public class AnalisadorDePendencias {
 
-    PropostaRepository propostaRepository;
-    GeradorCartaoApiExterna cartaoApiExterna;
-    EstadoPropostaService estadoPropostaService;
+    private PropostaRepository propostaRepository;
+    private GeradorCartaoApiExterna cartaoApiExterna;
+    private EstadoPropostaService estadoPropostaService;
 
     public AnalisadorDePendencias(PropostaRepository propostaRepository, GeradorCartaoApiExterna cartaoApiExterna, EstadoPropostaService estadoPropostaService) {
         this.propostaRepository = propostaRepository;
@@ -29,9 +29,8 @@ public class AnalisadorDePendencias {
 
     @Scheduled(fixedDelayString = "${proposta.pendencias.scheduled.fixeddelay}", initialDelayString = "${proposta.pendencias.scheduled.initialdelay}")
     @Transactional
-    private void analisarPendencias(){
+    public void analisarPendencias(){
         List<Proposta> propostas = propostaRepository.findAllByEstado(AGUARDANDO_APROVACAO);
-        System.out.println("Rodando o analisar de pendencias");
         for (Proposta proposta : propostas){
             estadoPropostaService.getEstadoProposta(proposta);
         }

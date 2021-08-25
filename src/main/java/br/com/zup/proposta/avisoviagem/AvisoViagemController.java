@@ -17,9 +17,9 @@ import java.net.MalformedURLException;
 @RequestMapping(path = "/api/v1/avisos")
 public class AvisoViagemController {
 
-    HttpServletRequest servletRequest;
-    CartaoService cartaoService;
-    CartaoRepository cartaoRepository;
+    private HttpServletRequest servletRequest;
+    private CartaoService cartaoService;
+    private CartaoRepository cartaoRepository;
 
     public AvisoViagemController(HttpServletRequest servletRequest, CartaoService cartaoService, CartaoRepository cartaoRepository) {
         this.servletRequest = servletRequest;

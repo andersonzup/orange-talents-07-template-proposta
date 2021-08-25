@@ -11,7 +11,6 @@ import br.com.zup.proposta.exception.BloqueioNotValidException;
 import br.com.zup.proposta.exception.SystemNotAvailableException;
 import br.com.zup.proposta.novaproposta.Proposta;
 import br.com.zup.proposta.novaproposta.PropostaRepository;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -45,8 +44,7 @@ public class CartaoService {
 
     @Scheduled(fixedDelayString = "${proposta.cartao.scheduled.fixeddelay}", initialDelayString = "${proposta.cartao.scheduled.initialdelay}")
     @Transactional
-    private void executarOperacao() {
-        System.out.println("Rodando gerador de cartão");
+    public void executarOperacao() {
         List<Proposta> propostasElegiveis = propostaRepository.findAllByEstado(ELEGIVEL);
         for (Proposta proposta : propostasElegiveis) {
             CartaoGeradoResponse response = null;
@@ -61,7 +59,7 @@ public class CartaoService {
         }
     }
 
-    private void getNumeroCartao(Proposta proposta, CartaoGeradoResponse response) {
+    public void getNumeroCartao(Proposta proposta, CartaoGeradoResponse response) {
         String numeroCartao = response.getId();
         if (numeroCartao != null) {
             proposta.insereNumeroCartao(numeroCartao);
@@ -74,7 +72,7 @@ public class CartaoService {
 
     @Scheduled(fixedDelay = 500000, initialDelay = 10000)
     @Transactional
-    private void atualizarBaseDeCartoes(){
+    public void atualizarBaseDeCartoes(){
         List<Cartao> cartoes = cartaoRepository.findAll();
         for (Cartao cartao: cartoes) {
             CartaoGeradoResponse response = cartaoApiExterna.getCartaoGeradoResponse(cartao.getNumero());
