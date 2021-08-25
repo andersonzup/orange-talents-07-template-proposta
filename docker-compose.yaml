@@ -84,6 +84,7 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: Pa55w0rd
       POSTGRES_PORT_5432_TCP_ADDR: 127.0.0.1
+      #KEYCLOAK_FRONTEND_URL: http://keycloak:8080/auth
     restart: on-failure
 
   analise:
@@ -162,10 +163,13 @@ services:
 
   apipropostas:
     image: 'santanaanderson/propostas'
+    container_name: apipropostas
     ports:
       - 8080:8080
     environment:
       PROFILE: prod
+      NOME_DA_APLICACAO: apipropostas
+      AMBIENTE: produção
       URL_API_CONSULTA: http://analise:9999/api/solicitacao
       NOME_API_CONSULTA: consultaRestricao
       URL_API_CARTAO: http://contas:8888/api/cartoes
@@ -180,7 +184,8 @@ services:
       DB_USERNAME: developer
       DB_PASSWORD: 1234567
       DDL_AUTO: create
-
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/auth/realms/nosso-cartao
+      KEYCLOAK_JWKS_URI: http://keycloak:8080/auth/realms/nosso-cartao/protocol/openid-connect/certs
     depends_on:
       - postgrespropostas
       - analise
