@@ -1,6 +1,7 @@
 package br.com.zup.proposta.validacao;
 
 import br.com.zup.proposta.exception.PropostaNotValidException;
+import br.com.zup.proposta.utils.Criptografia;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -12,7 +13,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.List;
 
 @Component
-public class UniquePropostaValidator implements ConstraintValidator<UniqueProposta, Object> {
+public class UniquePropostaValidator implements ConstraintValidator<UniqueProposta, String> {
 
     private String atributos;
     private Class<?> dClass;
@@ -28,9 +29,10 @@ public class UniquePropostaValidator implements ConstraintValidator<UniquePropos
     }
 
     @Override
-    public boolean isValid(Object value, ConstraintValidatorContext context) {
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        String valueHash = Criptografia.getSHA512(value);
         Query query = entityManager.createQuery("select c from "+dClass.getName()+" c where c."+atributos+"=:value");
-        query.setParameter("value", value);
+        query.setParameter("value", valueHash);
         List<?> list = query.getResultList();
         Assert.state(list.size() <= 1, "Foi encontrado mais de um "+dClass+" com o atributo "+atributos+" = "+value);
        if (!list.isEmpty()){

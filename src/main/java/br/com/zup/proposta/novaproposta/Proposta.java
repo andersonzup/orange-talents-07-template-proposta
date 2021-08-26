@@ -1,5 +1,7 @@
 package br.com.zup.proposta.novaproposta;
 
+import br.com.zup.proposta.utils.Criptografia;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -12,6 +14,9 @@ public class Proposta {
 
     @NotBlank
     private String documento;
+
+    @NotBlank
+    private  String documentohash;
 
     @NotBlank
     @Email
@@ -38,21 +43,19 @@ public class Proposta {
     }
 
     public Proposta(NovaPropostaRequest request, EnderecoRequest enderecoRequest) {
-        this.documento = request.getDocumento();
+        this.documento = criptografar(request.getDocumento());
         this.email = request.getEmail();
         this.nome = request.getNome();
         this.endereco = enderecoRequest.toModel();
         this.salario = request.getSalario();
         this.estado = EstadoProposta.AGUARDANDO_APROVACAO;
+        this.documentohash = Criptografia.getSHA512(request.getDocumento());
     }
 
-    public Proposta(String documento, String email, String nome, Endereco endereco, double salario, EstadoProposta estado) {
-        this.documento = documento;
-        this.email = email;
-        this.nome = nome;
-        this.endereco = endereco;
-        this.salario = salario;
-        this.estado = estado;
+
+    private String criptografar(String entrada){
+        Criptografia criptografia = new Criptografia();
+        return criptografia.encode(entrada);
     }
 
     public void atualizaEstado(EstadoProposta estado) {
@@ -70,7 +73,12 @@ public class Proposta {
     }
 
     public String getDocumento() {
-        return documento;
+        Criptografia criptografia = new Criptografia();
+        return criptografia.decode(documento);
+    }
+
+    public String getDocumentohash() {
+        return documentohash;
     }
 
     public String getNome() {

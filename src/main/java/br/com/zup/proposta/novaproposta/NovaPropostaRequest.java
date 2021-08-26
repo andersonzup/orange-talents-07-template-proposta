@@ -12,7 +12,7 @@ public class NovaPropostaRequest {
 
     @CPFOrCNPJ
     @NotBlank
-    @UniqueProposta(domainClass = Proposta.class, fieldName = "documento", message = "Solicitante já requisitou uma proposta")
+    @UniqueProposta(domainClass = Proposta.class, fieldName = "documentohash", message = "Solicitante já requisitou uma proposta")
     private String documento;
 
     @NotBlank

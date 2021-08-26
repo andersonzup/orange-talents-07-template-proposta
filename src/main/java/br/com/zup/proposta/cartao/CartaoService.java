@@ -80,7 +80,6 @@ public class CartaoService {
 
 
         }
-        System.out.println("Atualizando Base de cartoes Local");
     }
 
     public boolean verificadorDeCartao(String cartaoId) throws CartaoNotFoundException {

@@ -13,7 +13,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Constraint(validatedBy = UniquePropostaValidator.class)
 public @interface UniqueProposta {
-    String message() default "{Duplicidade no sistema}";
+    String message() default "Duplicidade no sistema";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
     String value() default "";
